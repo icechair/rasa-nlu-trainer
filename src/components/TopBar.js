@@ -9,7 +9,7 @@ import ClearButton from './ClearButton'
 import FileReaderInput from 'react-file-reader-input'
 import { saveAs } from 'file-saver'
 import generateExport from '../utils/generateExport'
-
+import readFileAsText from '../utils/readFileAsText'
 const mapState = (state) => ({
   filename: state.filename || 'loading...',
   isUnsaved: state.isUnsaved,
@@ -25,6 +25,9 @@ const mapActions = dispatch => ({
   },
   fetchData: (path, data) => {
     dispatch(actions.fetchData(path, data))
+  },
+  addExamples: (list) => {
+    dispatch(actions.addExampleFiles(list))
   },
 })
 
@@ -50,6 +53,10 @@ class TopBar extends Component {
     data.rasa_nlu_data.common_examples = data.rasa_nlu_data.common_examples || []
     this.props.fetchData(file.name, data)
   }
+  async handleExampleFileChange (ev, results) {
+    const examples = await Promise.all(results.map(r => readFileAsText(r[1])))
+    this.props.addExamples(examples)
+  }
   render() {
     const { filename, isUnsaved, save, openAddModal } = this.props
 
@@ -72,7 +79,6 @@ class TopBar extends Component {
                 [ generateExport() ],
                 { type: 'text/plain;charset=utf-8' },
               )
-              debugger
               saveAs(blob, filename)
             }}
           >
@@ -96,6 +102,16 @@ class TopBar extends Component {
           {filename}
         </h3>
         <div style={{flex: 1}} />
+        <FileReaderInput
+          as='text'
+          multiple
+          accept="text/*"
+          onChange={(e, results) => this.handleExampleFileChange(e, results)}
+        >
+          <Button type='ghost' style={styles.button}>
+            <Icon type='upload' /> Add Example Files
+          </Button>
+        </FileReaderInput>
         <Button
           style={ styles.button }
           type='primary'

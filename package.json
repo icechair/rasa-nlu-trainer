@@ -83,6 +83,8 @@
   },
   "scripts": {
     "start": "node server.js -p 4321 -d true &! node scripts/start.js",
+    "start:windows-srv": "node server.js -p 4321 -d true",
+    "start:windows-cra": "node scripts/start.js",
     "build-demo": "node scripts/build.js",
     "build": "node scripts/build.js && replace '\"/rasa-nlu-trainer/' '\"/' ./build/index.html",
     "test": "node scripts/test.js --env=jsdom",

@@ -1,4 +1,5 @@
 // @flow
+/* global fetch */
 const ROOT_PATH = process.env.NODE_ENV === 'production'
   ? '/'
   : 'http://localhost:4321/'
@@ -90,4 +91,10 @@ export const closeAddModal = (): Object => ({
 export const SAVE_AND_CLOSE_ADD_MODAL = 'SAVE_AND_CLOSE_ADD_MODAL'
 export const saveAndCloseAddModal = (): Object => ({
   type: SAVE_AND_CLOSE_ADD_MODAL,
+})
+
+export const ADD_EXAMPLE_FILES = 'ADD_EXAMPLE_FILES'
+export const addExampleFiles = (list: string[]): Object => ({
+  type: ADD_EXAMPLE_FILES,
+  payload: {list}
 })

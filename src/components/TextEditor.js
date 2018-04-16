@@ -149,6 +149,8 @@ class TextEditor extends Component {
           ref={node => this.selectionAnchorNode = node}
         >
           <Input
+            type='textarea'
+            autosize
             ref={node => this.inputNode = node && findDOMNode(node)}
             onChange={event => this.handleTextChange(event)}
             value={text}

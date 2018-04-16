@@ -16,6 +16,7 @@ import {
   CLOSE_ADD_MODAL,
   SAVE_AND_CLOSE_ADD_MODAL,
   RESET,
+  ADD_EXAMPLE_FILES
 } from './actions'
 
 let exampleIDCounter = 0
@@ -143,6 +144,13 @@ export default function reducer (
     }
     case SAVE_AND_CLOSE_ADD_MODAL: {
       return immutable.set(state, `idExampleInModal`, null)
+    }
+    case ADD_EXAMPLE_FILES: {
+      const {list} = payload
+      return {
+        ...state,
+        examples: state.examples.concat(list.map(text => createExample({text}))),
+      }
     }
     default:
       return state
